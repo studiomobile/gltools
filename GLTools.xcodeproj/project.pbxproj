@@ -1,0 +1,243 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 45;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		B40E4FF1105941A100513FE3 /* MD2Model.m in Sources */ = {isa = PBXBuildFile; fileRef = B40E4FA1105940CE00513FE3 /* MD2Model.m */; };
+		B40E4FF2105941A300513FE3 /* md2.c in Sources */ = {isa = PBXBuildFile; fileRef = B40E4F9E105940CE00513FE3 /* md2.c */; };
+		B40E50041059551A00513FE3 /* md5anim.c in Sources */ = {isa = PBXBuildFile; fileRef = B40E50011059551A00513FE3 /* md5anim.c */; };
+		B40E50051059551A00513FE3 /* md5mesh.c in Sources */ = {isa = PBXBuildFile; fileRef = B40E50021059551A00513FE3 /* md5mesh.c */; };
+		B40E50061059551A00513FE3 /* md5.h in Headers */ = {isa = PBXBuildFile; fileRef = B40E50031059551A00513FE3 /* md5.h */; };
+		B40E500A105958B500513FE3 /* quat.c in Sources */ = {isa = PBXBuildFile; fileRef = B40E5008105958B500513FE3 /* quat.c */; };
+		B40E5057105A8CF400513FE3 /* MD5Model.h in Headers */ = {isa = PBXBuildFile; fileRef = B40E5055105A8CF400513FE3 /* MD5Model.h */; };
+		B40E5058105A8CF400513FE3 /* MD5Model.m in Sources */ = {isa = PBXBuildFile; fileRef = B40E5056105A8CF400513FE3 /* MD5Model.m */; };
+		B40E5186105AB2D800513FE3 /* TextureManager.h in Headers */ = {isa = PBXBuildFile; fileRef = B40E5184105AB2D800513FE3 /* TextureManager.h */; };
+		B40E5187105AB2D800513FE3 /* TextureManager.m in Sources */ = {isa = PBXBuildFile; fileRef = B40E5185105AB2D800513FE3 /* TextureManager.m */; };
+		B40E5189105AB3A000513FE3 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B40E5188105AB3A000513FE3 /* UIKit.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		B40E4F741059403600513FE3 /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
+		B40E4F9E105940CE00513FE3 /* md2.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = md2.c; sourceTree = "<group>"; };
+		B40E4F9F105940CE00513FE3 /* md2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = md2.h; sourceTree = "<group>"; };
+		B40E4FA0105940CE00513FE3 /* MD2Model.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MD2Model.h; sourceTree = "<group>"; };
+		B40E4FA1105940CE00513FE3 /* MD2Model.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MD2Model.m; sourceTree = "<group>"; };
+		B40E4FE71059418A00513FE3 /* libgltools.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libgltools.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		B40E50011059551A00513FE3 /* md5anim.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = md5anim.c; sourceTree = "<group>"; };
+		B40E50021059551A00513FE3 /* md5mesh.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = md5mesh.c; sourceTree = "<group>"; };
+		B40E50031059551A00513FE3 /* md5.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = md5.h; sourceTree = "<group>"; };
+		B40E5008105958B500513FE3 /* quat.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = quat.c; sourceTree = "<group>"; };
+		B40E5055105A8CF400513FE3 /* MD5Model.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MD5Model.h; sourceTree = "<group>"; };
+		B40E5056105A8CF400513FE3 /* MD5Model.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MD5Model.m; sourceTree = "<group>"; };
+		B40E5184105AB2D800513FE3 /* TextureManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TextureManager.h; sourceTree = "<group>"; };
+		B40E5185105AB2D800513FE3 /* TextureManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TextureManager.m; sourceTree = "<group>"; };
+		B40E5188105AB3A000513FE3 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		B40E4FE51059418A00513FE3 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B40E5189105AB3A000513FE3 /* UIKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		29B97314FDCFA39411CA2CEA /* CustomTemplate */ = {
+			isa = PBXGroup;
+			children = (
+				B40E5179105AB26400513FE3 /* TEX */,
+				B40E50001059551A00513FE3 /* MD5 */,
+				B40E4F9D105940CE00513FE3 /* MD2 */,
+				B40E5188105AB3A000513FE3 /* UIKit.framework */,
+				B40E4F741059403600513FE3 /* OpenGLES.framework */,
+				B40E4FE71059418A00513FE3 /* libgltools.a */,
+			);
+			name = CustomTemplate;
+			sourceTree = "<group>";
+		};
+		B40E4F9D105940CE00513FE3 /* MD2 */ = {
+			isa = PBXGroup;
+			children = (
+				B40E4FA0105940CE00513FE3 /* MD2Model.h */,
+				B40E4FA1105940CE00513FE3 /* MD2Model.m */,
+				B40E4F9E105940CE00513FE3 /* md2.c */,
+				B40E4F9F105940CE00513FE3 /* md2.h */,
+			);
+			path = MD2;
+			sourceTree = "<group>";
+		};
+		B40E50001059551A00513FE3 /* MD5 */ = {
+			isa = PBXGroup;
+			children = (
+				B40E5055105A8CF400513FE3 /* MD5Model.h */,
+				B40E5056105A8CF400513FE3 /* MD5Model.m */,
+				B40E50011059551A00513FE3 /* md5anim.c */,
+				B40E50021059551A00513FE3 /* md5mesh.c */,
+				B40E50031059551A00513FE3 /* md5.h */,
+				B40E5008105958B500513FE3 /* quat.c */,
+			);
+			path = MD5;
+			sourceTree = "<group>";
+		};
+		B40E5179105AB26400513FE3 /* TEX */ = {
+			isa = PBXGroup;
+			children = (
+				B40E5184105AB2D800513FE3 /* TextureManager.h */,
+				B40E5185105AB2D800513FE3 /* TextureManager.m */,
+			);
+			path = TEX;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		B40E4FE31059418A00513FE3 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B40E50061059551A00513FE3 /* md5.h in Headers */,
+				B40E5057105A8CF400513FE3 /* MD5Model.h in Headers */,
+				B40E5186105AB2D800513FE3 /* TextureManager.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		B40E4FE61059418A00513FE3 /* gltools */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = B40E4FF5105941C100513FE3 /* Build configuration list for PBXNativeTarget "gltools" */;
+			buildPhases = (
+				B40E4FE31059418A00513FE3 /* Headers */,
+				B40E4FE41059418A00513FE3 /* Sources */,
+				B40E4FE51059418A00513FE3 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = gltools;
+			productName = gltools;
+			productReference = B40E4FE71059418A00513FE3 /* libgltools.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		29B97313FDCFA39411CA2CEA /* Project object */ = {
+			isa = PBXProject;
+			buildConfigurationList = C01FCF4E08A954540054247B /* Build configuration list for PBXProject "GLTools" */;
+			compatibilityVersion = "Xcode 3.1";
+			hasScannedForEncodings = 1;
+			mainGroup = 29B97314FDCFA39411CA2CEA /* CustomTemplate */;
+			productRefGroup = 29B97314FDCFA39411CA2CEA /* CustomTemplate */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				B40E4FE61059418A00513FE3 /* gltools */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		B40E4FE41059418A00513FE3 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B40E4FF1105941A100513FE3 /* MD2Model.m in Sources */,
+				B40E4FF2105941A300513FE3 /* md2.c in Sources */,
+				B40E50041059551A00513FE3 /* md5anim.c in Sources */,
+				B40E50051059551A00513FE3 /* md5mesh.c in Sources */,
+				B40E500A105958B500513FE3 /* quat.c in Sources */,
+				B40E5058105A8CF400513FE3 /* MD5Model.m in Sources */,
+				B40E5187105AB2D800513FE3 /* TextureManager.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		B40E4FE81059418B00513FE3 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				PREBINDING = NO;
+				PRODUCT_NAME = gltools;
+			};
+			name = Debug;
+		};
+		B40E4FE91059418B00513FE3 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				PREBINDING = NO;
+				PRODUCT_NAME = gltools;
+				ZERO_LINK = NO;
+			};
+			name = Release;
+		};
+		C01FCF4F08A954540054247B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				GCC_C_LANGUAGE_STANDARD = c99;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				PREBINDING = NO;
+				SDKROOT = iphoneos2.2.1;
+			};
+			name = Debug;
+		};
+		C01FCF5008A954540054247B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				GCC_C_LANGUAGE_STANDARD = c99;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				PREBINDING = NO;
+				SDKROOT = iphoneos2.2.1;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		B40E4FF5105941C100513FE3 /* Build configuration list for PBXNativeTarget "gltools" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B40E4FE81059418B00513FE3 /* Debug */,
+				B40E4FE91059418B00513FE3 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C01FCF4E08A954540054247B /* Build configuration list for PBXProject "GLTools" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C01FCF4F08A954540054247B /* Debug */,
+				C01FCF5008A954540054247B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 29B97313FDCFA39411CA2CEA /* Project object */;
+}
