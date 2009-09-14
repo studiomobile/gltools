@@ -1,32 +1,77 @@
-#include "md5.h"
 #include <string.h>
 #include <math.h>
 #include <assert.h>
+#include "glmath.h"
+
+
+void Vec_crossProduct(const vec3_t v1, const vec3_t v2, vec3_t cross) {
+    cross[X] = (v1[Y] * v2[Z]) - (v1[Z] * v2[Y]);
+    cross[Y] = (v1[Z] * v2[X]) - (v1[X] * v2[Z]);
+	cross[Z] = (v1[X] * v2[Y]) - (v1[Y] * v2[X]);
+}
+
+
+void Vec_normalize(vec3_t v) {
+    GLfloat mag = (v[X] * v[X]) + (v[Y] * v[Y]) + (v[Z] * v[Z]);
+    if (mag > 0.0) {
+        GLfloat oneOverMag = 1.0 / sqrt (mag);
+        v[X] *= oneOverMag;
+        v[Y] *= oneOverMag;
+        v[Z] *= oneOverMag;
+    }
+}
+
+
+void Vec_computeNormal(const vec3_t p1, const vec3_t p2, const vec3_t p3, vec3_t normal) {
+    vec3_t v1;
+    vec3_t v2;
+    
+    VEC_COPY(v1, p1);
+    VEC_SUB(v1, p2);
+    
+    VEC_COPY(v2, p1);
+    VEC_SUB(v2, p3);
+    
+    Vec_crossProduct(v1, v2, normal);
+    Vec_normalize(normal);
+}
+
+
+void Vec_multAdd(const vec3_t x, const vec3_t a, const vec3_t b, vec3_t out) {
+    out[X] = x[X]*a[X] + b[X];
+    out[Y] = x[Y]*a[Y] + b[Y];
+    out[Z] = x[Z]*a[Z] + b[Z];
+}
+
 
 
 void Quat_computeW(quat4_t q) {
     float t = 1.0f - (q[X] * q[X]) - (q[Y] * q[Y]) - (q[Z] * q[Z]);
-    
-    if (t < 0.0f)
+    if (t < 0.0f) {
         q[W] = 0.0f;
-    else
+    } else {
         q[W] = -sqrt (t);
+    }
 }
 
 
 void Quat_normalize(quat4_t q) {
-    /* compute magnitude of the quaternion */
-    float mag = sqrt ((q[X] * q[X]) + (q[Y] * q[Y]) + (q[Z] * q[Z]) + (q[W] * q[W]));
-
-    /* check for bogus length, to protect against divide by zero */
+    GLfloat mag = (q[X] * q[X]) + (q[Y] * q[Y]) + (q[Z] * q[Z]) + (q[W] * q[W]);
     if (mag > 0.0f) {
-        /* normalize it */
-        float oneOverMag = 1.0f / mag;
+        GLfloat oneOverMag = 1.0f / sqrt (mag);
         q[X] *= oneOverMag;
         q[Y] *= oneOverMag;
         q[Z] *= oneOverMag;
         q[W] *= oneOverMag;
     }
+}
+
+
+void Quat_inverse (const quat4_t q, quat4_t inv) {
+    inv[X] = -q[X];
+    inv[Y] = -q[Y];
+    inv[Z] = -q[Z];
+    inv[W] =  q[W];
 }
 
 
@@ -49,16 +94,12 @@ void Quat_multVec(const quat4_t q, const vec3_t v, quat4_t out) {
 void Quat_rotatePoint(const quat4_t q, const vec3_t in, vec3_t out) {
     quat4_t tmp, inv, final;
 
-    inv[X] = -q[X]; inv[Y] = -q[Y];
-    inv[Z] = -q[Z]; inv[W] =  q[W];
+    Quat_inverse(q, inv);
+    Quat_normalize(inv);
+    Quat_multVec(q, in, tmp);
+    Quat_multQuat(tmp, inv, final);
     
-    Quat_normalize (inv);
-    Quat_multVec (q, in, tmp);
-    Quat_multQuat (tmp, inv, final);
-    
-    out[X] = final[X];
-    out[Y] = final[Y];
-    out[Z] = final[Z];
+    VEC_COPY(out, final);
 }
 
 
@@ -125,9 +166,9 @@ void Quat_slerp(const quat4_t qa, const quat4_t qb, float t, quat4_t out) {
     }
     
     /* Interpolate and return new quaternion */
-    out[W] = (k0 * qa[3]) + (k1 * q1w);
-    out[X] = (k0 * qa[0]) + (k1 * q1x);
-    out[Y] = (k0 * qa[1]) + (k1 * q1y);
-    out[Z] = (k0 * qa[2]) + (k1 * q1z);
+    out[W] = (k0 * qa[W]) + (k1 * q1w);
+    out[X] = (k0 * qa[X]) + (k1 * q1x);
+    out[Y] = (k0 * qa[Y]) + (k1 * q1y);
+    out[Z] = (k0 * qa[Z]) + (k1 * q1z);
 }
 

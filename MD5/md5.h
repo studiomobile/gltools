@@ -24,123 +24,97 @@
  * CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  *
- * gcc -Wall -ansi -lGL -lGLU -lglut md5anim.c md5anim.c -o md5model
  */
 
 #ifndef __MD5MODEL_H__
 #define __MD5MODEL_H__
 
-#include <OpenGLES/ES1/gl.h>
+#include "gl.h"
+#include "glmath.h"
 
-/* Vectors */
-typedef GLfloat vec2_t[2];
-typedef GLfloat vec3_t[3];
+#define CALLOC(count, collection_ptr) collection_ptr = calloc(count, sizeof(collection_ptr[0]))
+#define CALLOCZ(count, collection_ptr) collection_ptr = calloc(count, sizeof(collection_ptr[0])); memset(collection_ptr, 0, count * sizeof(collection_ptr[0]))
 
-/* Quaternion (x, y, z, w) */
-typedef GLfloat quat4_t[4];
-
-enum {
-  X, Y, Z, W
-};
-
-/* Joint */
-struct md5_joint_t
+typedef struct _md5_joint_t
 {
-  char name[64];
-  int parent;
+    int parent;
+    vec3_t pos;
+    quat4_t orient;
+    char name[64];
+} md5_joint_t;
 
-  vec3_t pos;
-  quat4_t orient;
-};
 
-/* Vertex */
-struct md5_vertex_t
+typedef struct _md5_vertex_t
 {
-  int start; /* start weight */
-  int count; /* weight count */
-};
+    int start; /* start weight */
+    int count; /* weight count */
+} md5_vertex_t;
 
-/* Triangle */
-struct md5_triangle_t
+
+typedef struct _md5_triangle_t
 {
-  GLushort index[3];
-};
+    GLushort index[3];
+} md5_triangle_t;
 
-/* Weight */
-struct md5_weight_t
+
+typedef struct _md5_weight_t
 {
-  int joint;
-  GLfloat bias;
+    int joint;
+    GLfloat bias;
+    vec3_t pos;
+    vec3_t normal;
+} md5_weight_t;
 
-  vec3_t pos;
-};
 
-/* Bounding box */
-struct md5_bbox_t
+typedef struct _md5_bbox_t
 {
-  vec3_t min;
-  vec3_t max;
-};
+    vec3_t min;
+    vec3_t max;
+} md5_bbox_t;
 
-/* MD5 mesh */
-struct md5_mesh_t
+
+typedef struct _md5_mesh_t
 {
-  struct md5_vertex_t *vertices;
-  vec2_t *uvs;   
-  struct md5_triangle_t *triangles;
-  struct md5_weight_t *weights;
+    md5_vertex_t   *vertices;
+    md5_triangle_t *triangles;
+    md5_weight_t   *weights;
+    vec2_t *uvs;
 
-  int num_verts;
-  int num_tris;
-  int num_weights;
+    int num_verts;
+    int num_tris;
+    int num_weights;
 
-  char shader[256];
-};
+    char shader[256];
+} md5_mesh_t;
 
-/* MD5 model structure */
-struct md5_model_t
+
+typedef struct _md5_model_t
 {
-  struct md5_joint_t *baseSkel;
-  struct md5_mesh_t *meshes;
+    md5_joint_t *skel;
+    int num_joints;
+    md5_mesh_t *meshes;
+    int num_meshes;
+} md5_model_t;
 
-  int num_joints;
-  int num_meshes;
-};
 
-/* Animation data */
-struct md5_anim_t
+typedef struct _md5_anim_t
 {
-  int num_frames;
-  int num_joints;
-  int frameRate;
+    md5_joint_t **skel_frames;
+    int num_joints;
+    md5_bbox_t *bboxes;
+    int num_frames;
+    int frameRate;
+} md5_anim_t;
 
-  struct md5_joint_t **skelFrames;
-  struct md5_bbox_t *bboxes;
-};
 
-/**
- * Quaternion prototypes
- */
-void Quat_computeW (quat4_t q);
-void Quat_normalize (quat4_t q);
-void Quat_multQuat (const quat4_t qa, const quat4_t qb, quat4_t out);
-void Quat_multVec (const quat4_t q, const vec3_t v, quat4_t out);
-void Quat_rotatePoint (const quat4_t q, const vec3_t in, vec3_t out);
-float Quat_dotProduct (const quat4_t qa, const quat4_t qb);
-void Quat_slerp (const quat4_t qa, const quat4_t qb, float t, quat4_t out);
+int  MD5ReadModel(const char *filename, md5_model_t *mdl);
+void MD5FreeModel(md5_model_t *mdl);
+void MD5CalculateVerticesAndNormals(const md5_mesh_t *mesh, md5_joint_t *skel, vec3_t *verticesAndNormals);
 
-/**
- * md5mesh prototypes
- */
-int ReadMD5Model (const char *filename, struct md5_model_t *mdl);
-void FreeModel (struct md5_model_t *mdl);
 
-/**
- * md5anim prototypes
- */
-int CheckAnimValidity (const struct md5_model_t *mdl, const struct md5_anim_t *anim);
-int ReadMD5Anim (const char *filename, struct md5_anim_t *anim);
-void FreeAnim (struct md5_anim_t *anim);
-void InterpolateSkeletons (const struct md5_joint_t *skelA, const struct md5_joint_t *skelB, int num_joints, float interp, struct md5_joint_t *out);
+int  MD5ReadAnim(const char *filename, md5_anim_t *anim);
+void MD5FreeAnim(md5_anim_t *anim);
+int  MD5CheckAnimValidity(const md5_model_t *mdl, const md5_anim_t *anim);
+void MD5InterpolateSkeletons(const md5_joint_t *skelA, const md5_joint_t *skelB, int num_joints, float interp, md5_joint_t *out);
 
 #endif /* __MD5MODEL_H__ */

@@ -12,12 +12,14 @@
 		B40E50041059551A00513FE3 /* md5anim.c in Sources */ = {isa = PBXBuildFile; fileRef = B40E50011059551A00513FE3 /* md5anim.c */; };
 		B40E50051059551A00513FE3 /* md5mesh.c in Sources */ = {isa = PBXBuildFile; fileRef = B40E50021059551A00513FE3 /* md5mesh.c */; };
 		B40E50061059551A00513FE3 /* md5.h in Headers */ = {isa = PBXBuildFile; fileRef = B40E50031059551A00513FE3 /* md5.h */; };
-		B40E500A105958B500513FE3 /* quat.c in Sources */ = {isa = PBXBuildFile; fileRef = B40E5008105958B500513FE3 /* quat.c */; };
+		B40E500A105958B500513FE3 /* glmath.c in Sources */ = {isa = PBXBuildFile; fileRef = B40E5008105958B500513FE3 /* glmath.c */; };
 		B40E5057105A8CF400513FE3 /* MD5Model.h in Headers */ = {isa = PBXBuildFile; fileRef = B40E5055105A8CF400513FE3 /* MD5Model.h */; };
 		B40E5058105A8CF400513FE3 /* MD5Model.m in Sources */ = {isa = PBXBuildFile; fileRef = B40E5056105A8CF400513FE3 /* MD5Model.m */; };
 		B40E5186105AB2D800513FE3 /* TextureManager.h in Headers */ = {isa = PBXBuildFile; fileRef = B40E5184105AB2D800513FE3 /* TextureManager.h */; };
 		B40E5187105AB2D800513FE3 /* TextureManager.m in Sources */ = {isa = PBXBuildFile; fileRef = B40E5185105AB2D800513FE3 /* TextureManager.m */; };
 		B40E5189105AB3A000513FE3 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B40E5188105AB3A000513FE3 /* UIKit.framework */; };
+		B40E53FC105E6C0F00513FE3 /* glmath.h in Headers */ = {isa = PBXBuildFile; fileRef = B40E53FB105E6C0F00513FE3 /* glmath.h */; };
+		B40E540A105E6CB700513FE3 /* gl.h in Headers */ = {isa = PBXBuildFile; fileRef = B40E5409105E6CB700513FE3 /* gl.h */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -30,12 +32,14 @@
 		B40E50011059551A00513FE3 /* md5anim.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = md5anim.c; sourceTree = "<group>"; };
 		B40E50021059551A00513FE3 /* md5mesh.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = md5mesh.c; sourceTree = "<group>"; };
 		B40E50031059551A00513FE3 /* md5.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = md5.h; sourceTree = "<group>"; };
-		B40E5008105958B500513FE3 /* quat.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = quat.c; sourceTree = "<group>"; };
+		B40E5008105958B500513FE3 /* glmath.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = glmath.c; sourceTree = "<group>"; };
 		B40E5055105A8CF400513FE3 /* MD5Model.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MD5Model.h; sourceTree = "<group>"; };
 		B40E5056105A8CF400513FE3 /* MD5Model.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MD5Model.m; sourceTree = "<group>"; };
 		B40E5184105AB2D800513FE3 /* TextureManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TextureManager.h; sourceTree = "<group>"; };
 		B40E5185105AB2D800513FE3 /* TextureManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TextureManager.m; sourceTree = "<group>"; };
 		B40E5188105AB3A000513FE3 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		B40E53FB105E6C0F00513FE3 /* glmath.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = glmath.h; sourceTree = "<group>"; };
+		B40E5409105E6CB700513FE3 /* gl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = gl.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -82,7 +86,9 @@
 				B40E50011059551A00513FE3 /* md5anim.c */,
 				B40E50021059551A00513FE3 /* md5mesh.c */,
 				B40E50031059551A00513FE3 /* md5.h */,
-				B40E5008105958B500513FE3 /* quat.c */,
+				B40E5008105958B500513FE3 /* glmath.c */,
+				B40E53FB105E6C0F00513FE3 /* glmath.h */,
+				B40E5409105E6CB700513FE3 /* gl.h */,
 			);
 			path = MD5;
 			sourceTree = "<group>";
@@ -106,6 +112,8 @@
 				B40E50061059551A00513FE3 /* md5.h in Headers */,
 				B40E5057105A8CF400513FE3 /* MD5Model.h in Headers */,
 				B40E5186105AB2D800513FE3 /* TextureManager.h in Headers */,
+				B40E53FC105E6C0F00513FE3 /* glmath.h in Headers */,
+				B40E540A105E6CB700513FE3 /* gl.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -156,7 +164,7 @@
 				B40E4FF2105941A300513FE3 /* md2.c in Sources */,
 				B40E50041059551A00513FE3 /* md5anim.c in Sources */,
 				B40E50051059551A00513FE3 /* md5mesh.c in Sources */,
-				B40E500A105958B500513FE3 /* quat.c in Sources */,
+				B40E500A105958B500513FE3 /* glmath.c in Sources */,
 				B40E5058105A8CF400513FE3 /* MD5Model.m in Sources */,
 				B40E5187105AB2D800513FE3 /* TextureManager.m in Sources */,
 			);
