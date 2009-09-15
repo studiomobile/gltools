@@ -4,6 +4,8 @@
 @implementation MD5Model
 
 @synthesize drawSkeleton;
+@synthesize drawNormals;
+@synthesize animate;
 
 - (id)initWithModelFromFile:(NSString*)filePath animFile:(NSString*)animFilePath {
     if (![super init]) return nil;
@@ -40,8 +42,6 @@
     CALLOC(3 * model->num_joints, joint_vertices); // x, y, z per join position
     CALLOC(2 * model->num_joints, joint_indices); // 2 vertices per each bone
     
-    drawSkeleton = YES;
-
     max_time = 1.0 / anim->frameRate;
     
     return self;
@@ -94,10 +94,9 @@
 
 
 - (void)drawSkeleton:(const md5_joint_t *)skeleton {
-    for (size_t i = 0, offset = 0; i < model->num_joints; ++i, offset += 3) {
-        joint_vertices[offset + X] = skeleton[i].pos[X];
-        joint_vertices[offset + Y] = skeleton[i].pos[Y];
-        joint_vertices[offset + Z] = skeleton[i].pos[Z];
+    vec3_t *verts = (vec3_t *)joint_vertices;
+    for (size_t i = 0; i < model->num_joints; ++i) {
+        VEC_COPY(verts[i], skeleton[i].pos);
     }
     glVertexPointer(3, GL_FLOAT, 0, joint_vertices);
     
@@ -112,7 +111,7 @@
 
     /* Draw each joint */
     glPointSize( 5.0f );
-    glColor4f( 1.0f, 0.0f, 0.0f, 1.0f );
+    glColor4f( 1.0f, 1.0f, 0.0f, 1.0f );
     glDrawArrays(GL_POINTS, 0, model->num_joints);
 
     /* Draw each bone */
@@ -132,12 +131,12 @@
     }
 
     md5_joint_t *skeleton = model->skel;
-    
-    if (NO)
+
+    if (animate)
     {
         /* Calculate current and next frames */
         [self animate:current_time - last_time];
-        
+
         /* Interpolate skeletons between two frames */
         MD5InterpolateSkeletons (anim->skel_frames[curr_frame],
                               anim->skel_frames[next_frame],
@@ -145,40 +144,52 @@
                               last_time * anim->frameRate,
                               skeleton);
     }
-    
+
     glEnableClientState(GL_VERTEX_ARRAY);
     glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-    
+
     /* Draw each mesh of the model */
     for (size_t i = 0; i < model->num_meshes; ++i) {
         md5_mesh_t *mesh = &model->meshes[i];
         MD5CalculateVerticesAndNormals(mesh, skeleton, (vec3_t*)verticesAndNormals);
         glVertexPointer(3, GL_FLOAT, 6 * sizeof(verticesAndNormals[0]), verticesAndNormals);
-//        glNormalPointer(GL_FLOAT, 6 * sizeof(verticesAndNormals[0]), verticesAndNormals + 3 * sizeof(verticesAndNormals[0]));
+        glNormalPointer(GL_FLOAT, 6 * sizeof(verticesAndNormals[0]), verticesAndNormals + 3 * sizeof(verticesAndNormals[0]));
         glTexCoordPointer(2, GL_FLOAT, 0, mesh->uvs);
         glDrawElements(GL_TRIANGLES, mesh->num_tris * 3, GL_UNSIGNED_SHORT, mesh->triangles);
 
+        if (drawNormals) {
+            glDisable(GL_LIGHTING);
+            glDisable(GL_TEXTURE_2D);
+            glVertexPointer(3, GL_FLOAT, 0, verticesAndNormals);
+
+            vec3_t *vn = (vec3_t *)verticesAndNormals;
+
+            for (size_t i = 0, offset = 0; i < mesh->num_verts; ++i, offset += 2) {
+                VEC_ADD(vn[offset + 1], vn[offset]);
+            }
+
+            glColor4f(0.0f, 1.0f, 1.0f, 1.0f);
+            glDrawArrays(GL_POINTS, 0, 2 * mesh->num_verts);
+
+            glColor4f(0.0f, 0.0f, 1.0f, 1.0f);
+            glVertexPointer(3, GL_FLOAT, 0, verticesAndNormals);
+            glDrawArrays(GL_LINES, 0, 2 * mesh->num_verts);
+
+            glEnable(GL_TEXTURE_2D);
+            glEnable(GL_LIGHTING);
+        }
+    }
+
+    if (drawSkeleton) {
         glDisable(GL_LIGHTING);
         glDisable(GL_TEXTURE_2D);
-        glVertexPointer(3, GL_FLOAT, 0, verticesAndNormals);
-
-        glColor4f(0.0f, 1.0f, 1.0f, 1.0f);
-        glDrawArrays(GL_POINTS, 0, 2 * mesh->num_verts);
-        
-        glColor4f(0.0f, 0.0f, 1.0f, 1.0f);
-        glVertexPointer(3, GL_FLOAT, 0, verticesAndNormals);
-        glDrawArrays(GL_LINES, 0, 2 * mesh->num_verts);
-
+        glDisable(GL_DEPTH_TEST);
+        [self drawSkeleton:skeleton];
+        glEnable(GL_DEPTH_TEST);
         glEnable(GL_TEXTURE_2D);
         glEnable(GL_LIGHTING);
     }
-    
-    if (drawSkeleton) {
-//        glDisable(GL_DEPTH_TEST);
-//        [self drawSkeleton:skeleton];
-//        glEnable(GL_DEPTH_TEST);
-    }
-    
+
     glDisableClientState(GL_VERTEX_ARRAY);
     glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 }

@@ -109,7 +109,7 @@ typedef struct _md5_anim_t
 
 int  MD5ReadModel(const char *filename, md5_model_t *mdl);
 void MD5FreeModel(md5_model_t *mdl);
-void MD5CalculateVerticesAndNormals(const md5_mesh_t *mesh, md5_joint_t *skel, vec3_t *verticesAndNormals);
+void MD5CalculateVerticesAndNormals(const md5_mesh_t *mesh, const md5_joint_t *skel, vec3_t *verticesAndNormals);
 
 
 int  MD5ReadAnim(const char *filename, md5_anim_t *anim);

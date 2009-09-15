@@ -14,6 +14,8 @@ struct _md5_anim_t;
     GLushort  *joint_indices;
 
     BOOL drawSkeleton;
+    BOOL drawNormals;
+    BOOL animate;
     
     int curr_frame;
     int next_frame;
@@ -23,6 +25,8 @@ struct _md5_anim_t;
 @property (nonatomic, readonly) NSInteger totalFrames;
 @property (nonatomic, readonly) NSInteger animationFrameRate;
 @property (nonatomic, assign) BOOL drawSkeleton;
+@property (nonatomic, assign) BOOL drawNormals;
+@property (nonatomic, assign) BOOL animate;
 
 - (id)initWithModelFromFile:(NSString*)filePath animFile:(NSString*)animFilePath;
 

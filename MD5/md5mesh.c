@@ -275,7 +275,7 @@ void MD5FreeModel(md5_model_t *mdl) {
 }
 
 
-void MD5CalculateVerticesAndNormals(const md5_mesh_t *mesh, md5_joint_t *skel, vec3_t *verticesAndNormals) {
+void MD5CalculateVerticesAndNormals(const md5_mesh_t *mesh, const md5_joint_t *skel, vec3_t *verticesAndNormals) {
     for (size_t i = 0, offset = 0; i < mesh->num_verts; ++i, offset += 2) {
         vec3_t finalVertex = { 0.0f, 0.0f, 0.0f };
         vec3_t finalNormal = { 0.0f, 0.0f, 0.0f };
