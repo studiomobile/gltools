@@ -1,34 +1,3 @@
-/*
- * md5mesh.c -- md5mesh model loader + animation
- * last modification: aug. 14, 2007
- *
- * Doom3's md5mesh viewer with animation.  Mesh portion.
- * Dependences: md5model.h, md5anim.c.
- *
- * Copyright (c) 2005-2007 David HENRY
- *
- * Permission is hereby granted, free of charge, to any person
- * obtaining a copy of this software and associated documentation
- * files (the "Software"), to deal in the Software without
- * restriction, including without limitation the rights to use,
- * copy, modify, merge, publish, distribute, sublicense, and/or
- * sell copies of the Software, and to permit persons to whom the
- * Software is furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be
- * included in all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
- * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
- * MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
- * NONINFRINGEMENT.
- * IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR
- * ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF
- * CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
- * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
- *
- */
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -64,13 +33,11 @@ int MD5ReadModel(const char *filename, md5_model_t *mdl) {
             }
         } else if (sscanf (buff, " numJoints %d", &mdl->num_joints) == 1) {
             if (mdl->num_joints > 0) {
-                /* Allocate memory for base skeleton joints */
-                mdl->skel = (md5_joint_t *) calloc (mdl->num_joints, sizeof (md5_joint_t));
+                CALLOC(mdl->num_joints, mdl->skel);
             }
         } else if (sscanf (buff, " numMeshes %d", &mdl->num_meshes) == 1) {
             if (mdl->num_meshes > 0) {
-                /* Allocate memory for meshes */
-                mdl->meshes = (md5_mesh_t *) calloc (mdl->num_meshes, sizeof (md5_mesh_t));
+                CALLOC(mdl->num_meshes, mdl->meshes);
             }
         } else if (strncmp (buff, "joints {", 8) == 0) {
             /* Read each joint */
@@ -244,6 +211,8 @@ void MD5ComputeWightNormals(md5_model_t *mdl) {
 
 
 void MD5FreeModel(md5_model_t *mdl) {
+    if (!mdl) return;
+
     if (mdl->skel) {
         free (mdl->skel);
         mdl->skel = NULL;

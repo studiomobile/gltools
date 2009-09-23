@@ -1,34 +1,3 @@
-/*
- * md5anim.c -- md5mesh model loader + animation
- * last modification: aug. 14, 2007
- *
- * Doom3's md5mesh viewer with animation.  Animation portion.
- * Dependences: md5model.h, md5mesh.c.
- *
- * Copyright (c) 2005-2007 David HENRY
- *
- * Permission is hereby granted, free of charge, to any person
- * obtaining a copy of this software and associated documentation
- * files (the "Software"), to deal in the Software without
- * restriction, including without limitation the rights to use,
- * copy, modify, merge, publish, distribute, sublicense, and/or
- * sell copies of the Software, and to permit persons to whom the
- * Software is furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be
- * included in all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
- * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
- * MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
- * NONINFRINGEMENT.
- * IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR
- * ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF
- * CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
- * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
- *
- */
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <memory.h>
@@ -280,36 +249,36 @@ int MD5ReadAnim (const char *filename, md5_anim_t *anim) {
  * Free resources allocated for the animation.
  */
 void MD5FreeAnim(md5_anim_t *anim) {
-  if (anim->skel_frames) {
-      for (int i = 0; i < anim->num_frames; ++i) {
-          if (anim->skel_frames[i]) {
-              free (anim->skel_frames[i]);
-              anim->skel_frames[i] = NULL;
-          }
-      }
-      free (anim->skel_frames);
-      anim->skel_frames = NULL;
-  }
-  if (anim->bboxes) {
-      free (anim->bboxes);
-      anim->bboxes = NULL;
-  }
+    if (!anim) return;
+
+    if (anim->skel_frames) {
+        for (int i = 0; i < anim->num_frames; ++i) {
+            if (anim->skel_frames[i]) {
+                free (anim->skel_frames[i]);
+                anim->skel_frames[i] = NULL;
+            }
+        }
+        free (anim->skel_frames);
+        anim->skel_frames = NULL;
+    }
+    if (anim->bboxes) {
+        free (anim->bboxes);
+        anim->bboxes = NULL;
+    }
 }
 
 /**
  * Smoothly interpolate two skeletons
  */
 void MD5InterpolateSkeletons(const md5_joint_t *skelA, const md5_joint_t *skelB, int num_joints, float interp, md5_joint_t *out) {
-  for (int i = 0; i < num_joints; ++i) {
-      /* Copy parent index */
-      out[i].parent = skelA[i].parent;
+    for (int i = 0; i < num_joints; ++i) {
+        /* Copy parent index */
+        out[i].parent = skelA[i].parent;
 
-      /* Linear interpolation for position */
-      out[i].pos[X] = skelA[i].pos[X] + interp * (skelB[i].pos[X] - skelA[i].pos[X]);
-      out[i].pos[Y] = skelA[i].pos[Y] + interp * (skelB[i].pos[Y] - skelA[i].pos[Y]);
-      out[i].pos[Z] = skelA[i].pos[Z] + interp * (skelB[i].pos[Z] - skelA[i].pos[Z]);
+        /* Linear interpolation for position */
+        Vec_interpolate(skelA[i].pos, skelB[i].pos, interp, out[i].pos);
 
-      /* Spherical linear interpolation for orientation */
-      Quat_slerp(skelA[i].orient, skelB[i].orient, interp, out[i].orient);
+        /* Spherical linear interpolation for orientation */
+        Quat_slerp(skelA[i].orient, skelB[i].orient, interp, out[i].orient);
     }
 }

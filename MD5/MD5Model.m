@@ -10,15 +10,14 @@
 - (id)initWithModelFromFile:(NSString*)filePath animFile:(NSString*)animFilePath {
     if (![super init]) return nil;
     
-    model = malloc( sizeof(model[0]) );
-    
+    MALLOCZ(model);
     BOOL loaded = MD5ReadModel([filePath cStringUsingEncoding:NSUTF8StringEncoding], model);
     if (!loaded) {
         [self release];
         return nil;
     }
     
-    anim = malloc( sizeof(anim[0]) );
+    MALLOCZ(anim);
     loaded = MD5ReadAnim([animFilePath cStringUsingEncoding:NSUTF8StringEncoding], anim);
     if (!loaded) {
         [self release];
@@ -32,7 +31,6 @@
     }
     
     size_t max_verts = 0;
-
     for (int i = 0; i < model->num_meshes; ++i) {
         size_t mesh_verts = model->meshes[i].num_verts;
         max_verts = MAX(mesh_verts, max_verts);

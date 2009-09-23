@@ -2,6 +2,8 @@
 #define __GLMATH_H__
 
 #include "gl.h"
+#include "glmem.h"
+
 
 /* Vectors */
 typedef GLfloat vec2_t[2];
@@ -31,10 +33,12 @@ enum {
 /**
  * Vector prototypes
  */
-void Vec_crossProduct(const vec3_t v1, const vec3_t v2, vec3_t cross);
+void Vec_crossProduct(const vec3_t va, const vec3_t vb, vec3_t cross);
 void Vec_normalize(vec3_t v);
 void Vec_computeNormal(const vec3_t p1, const vec3_t p2, const vec3_t p3, vec3_t normal);
 void Vec_multAdd(const vec3_t x, const vec3_t a, const vec3_t b, vec3_t out);
+void Vec_interpolate(const vec3_t va, const vec3_t vb, float t, vec3_t out);
+void Vec_scale(const vec3_t v, float scale, vec3_t out);
 
 
 /**

@@ -4,10 +4,10 @@
 #include "glmath.h"
 
 
-void Vec_crossProduct(const vec3_t v1, const vec3_t v2, vec3_t cross) {
-    cross[X] = (v1[Y] * v2[Z]) - (v1[Z] * v2[Y]);
-    cross[Y] = (v1[Z] * v2[X]) - (v1[X] * v2[Z]);
-	cross[Z] = (v1[X] * v2[Y]) - (v1[Y] * v2[X]);
+void Vec_crossProduct(const vec3_t va, const vec3_t vb, vec3_t cross) {
+    cross[X] = (va[Y] * vb[Z]) - (va[Z] * vb[Y]);
+    cross[Y] = (va[Z] * vb[X]) - (va[X] * vb[Z]);
+	cross[Z] = (va[X] * vb[Y]) - (va[Y] * vb[X]);
 }
 
 
@@ -25,13 +25,13 @@ void Vec_normalize(vec3_t v) {
 void Vec_computeNormal(const vec3_t p1, const vec3_t p2, const vec3_t p3, vec3_t normal) {
     vec3_t v1;
     vec3_t v2;
-    
+
     VEC_COPY(v1, p1);
     VEC_SUB(v1, p2);
-    
+
     VEC_COPY(v2, p1);
     VEC_SUB(v2, p3);
-    
+
     Vec_crossProduct(v1, v2, normal);
     Vec_normalize(normal);
 }
@@ -41,6 +41,20 @@ void Vec_multAdd(const vec3_t x, const vec3_t a, const vec3_t b, vec3_t out) {
     out[X] = x[X]*a[X] + b[X];
     out[Y] = x[Y]*a[Y] + b[Y];
     out[Z] = x[Z]*a[Z] + b[Z];
+}
+
+
+void Vec_interpolate(const vec3_t va, const vec3_t vb, float t, vec3_t out) {
+    out[X] = va[X] + t * (vb[X] - va[X]);
+    out[Y] = va[Y] + t * (vb[Y] - va[Y]);
+    out[Z] = va[Z] + t * (vb[Z] - va[Z]);
+}
+
+
+void Vec_scale(const vec3_t v, float scale, vec3_t out) {
+    out[X] = v[X] * scale;
+    out[Y] = v[Y] * scale;
+    out[Z] = v[Z] * scale;
 }
 
 
@@ -98,7 +112,7 @@ void Quat_rotatePoint(const quat4_t q, const vec3_t in, vec3_t out) {
     Quat_normalize(inv);
     Quat_multVec(q, in, tmp);
     Quat_multQuat(tmp, inv, final);
-    
+
     VEC_COPY(out, final);
 }
 
@@ -114,15 +128,15 @@ void Quat_slerp(const quat4_t qa, const quat4_t qb, float t, quat4_t out) {
         memcpy (out, qa, sizeof(quat4_t));
         return;
     }
-    
+
     if (t >= 1.0) {
         memcpy (out, qb, sizeof (quat4_t));
         return;
     }
-    
+
     /* Compute "cosine of angle between quaternions" using dot product */
     float cosOmega = Quat_dotProduct(qa, qb);
-    
+
     /* If negative dot, use -q1.  Two quaternions q and -q
      represent the same rotation, but may produce
      different slerp.  We chose q or -q to rotate using
@@ -131,7 +145,7 @@ void Quat_slerp(const quat4_t qa, const quat4_t qb, float t, quat4_t out) {
     float q1x = qb[X];
     float q1y = qb[Y];
     float q1z = qb[Z];
-    
+
     if (cosOmega < 0.0f) {
         q1w = -q1w;
         q1x = -q1x;
@@ -139,13 +153,13 @@ void Quat_slerp(const quat4_t qa, const quat4_t qb, float t, quat4_t out) {
         q1z = -q1z;
         cosOmega = -cosOmega;
     }
-    
+
     /* We should have two unit quaternions, so dot should be <= 1.0 */
     assert (cosOmega < 1.1f);
-    
+
     /* Compute interpolation fraction, checking for quaternions almost exactly the same */
     float k0, k1;
-    
+
     if (cosOmega > 0.9999f) {
         /* Very close - just use linear interpolation, which will protect againt a divide by zero */
         k0 = 1.0f - t;
@@ -153,18 +167,18 @@ void Quat_slerp(const quat4_t qa, const quat4_t qb, float t, quat4_t out) {
     } else {
         /* Compute the sin of the angle using the trig identity sin^2(omega) + cos^2(omega) = 1 */
         float sinOmega = sqrt (1.0f - (cosOmega * cosOmega));
-        
+
         /* Compute the angle from its sin and cosine */
         float omega = atan2 (sinOmega, cosOmega);
-        
+
         /* Compute inverse of denominator, so we only have to divide once */
         float oneOverSinOmega = 1.0f / sinOmega;
-        
+
         /* Compute interpolation parameters */
         k0 = sin ((1.0f - t) * omega) * oneOverSinOmega;
         k1 = sin (t * omega) * oneOverSinOmega;
     }
-    
+
     /* Interpolate and return new quaternion */
     out[W] = (k0 * qa[W]) + (k1 * q1w);
     out[X] = (k0 * qa[X]) + (k1 * q1x);

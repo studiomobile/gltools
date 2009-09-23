@@ -4,11 +4,8 @@
 #include <string.h>
 
 
-int ReadMD2Model (const char *filename, struct md2_model_t *mdl) {
-    FILE *fp;
-    int i;
-    
-    fp = fopen (filename, "rb");
+int MD2ReadModel (const char *filename, md2_model_t *mdl) {
+    FILE *fp = fopen (filename, "rb");
     if (!fp)
     {
         fprintf (stderr, "Error: couldn't open \"%s\"!\n", filename);
@@ -16,7 +13,7 @@ int ReadMD2Model (const char *filename, struct md2_model_t *mdl) {
     }
     
     /* Read header */
-    fread (&mdl->header, 1, sizeof (struct md2_header_t), fp);
+    fread (&mdl->header, 1, sizeof (md2_header_t), fp);
     
     if ((mdl->header.ident != 844121161) || (mdl->header.version != 8))
     {
@@ -27,37 +24,37 @@ int ReadMD2Model (const char *filename, struct md2_model_t *mdl) {
     }
     
     /* Memory allocations */
-    mdl->skins =     (struct md2_skin_t *)     malloc (sizeof (struct md2_skin_t) * mdl->header.num_skins);
-    mdl->texcoords = (struct md2_texCoord_t *) malloc (sizeof (struct md2_texCoord_t) * mdl->header.num_st);
-    mdl->triangles = (struct md2_triangle_t *) malloc (sizeof (struct md2_triangle_t) * mdl->header.num_tris);
-    mdl->frames =    (struct md2_frame_t *)    malloc (sizeof (struct md2_frame_t) * mdl->header.num_frames);
-    mdl->glcmds =    (int *)                   malloc (sizeof (int) * mdl->header.num_glcmds);
+    CALLOC(mdl->header.num_skins, mdl->skins);
+    CALLOC(mdl->header.num_st, mdl->texcoords);
+    CALLOC(mdl->header.num_tris, mdl->triangles);
+    CALLOC(mdl->header.num_frames, mdl->frames);
+    CALLOC(mdl->header.num_glcmds, mdl->glcmds);
     
     /* Read model data */
     
     fseek (fp, mdl->header.offset_skins, SEEK_SET);
-    fread (mdl->skins, sizeof (struct md2_skin_t), mdl->header.num_skins, fp);
+    fread (mdl->skins, sizeof (md2_skin_t), mdl->header.num_skins, fp);
     
     fseek (fp, mdl->header.offset_st, SEEK_SET);
-    fread (mdl->texcoords, sizeof (struct md2_texCoord_t), mdl->header.num_st, fp);
+    fread (mdl->texcoords, sizeof (md2_texCoord_t), mdl->header.num_st, fp);
     
     fseek (fp, mdl->header.offset_tris, SEEK_SET);
-    fread (mdl->triangles, sizeof (struct md2_triangle_t), mdl->header.num_tris, fp);
+    fread (mdl->triangles, sizeof (md2_triangle_t), mdl->header.num_tris, fp);
     
     fseek (fp, mdl->header.offset_glcmds, SEEK_SET);
     fread (mdl->glcmds, sizeof (int), mdl->header.num_glcmds, fp);
     
     /* Read frames */
     fseek (fp, mdl->header.offset_frames, SEEK_SET);
-    for (i = 0; i < mdl->header.num_frames; ++i) {
+    for (size_t i = 0; i < mdl->header.num_frames; ++i) {
         /* Memory allocation for vertices of this frame */
-        mdl->frames[i].verts = (struct md2_vertex_t *) malloc (sizeof (struct md2_vertex_t) * mdl->header.num_vertices);
+        CALLOC(mdl->header.num_vertices, mdl->frames[i].verts);
         
         /* Read frame data */
         fread (mdl->frames[i].scale, sizeof (vec3_t), 1, fp);
         fread (mdl->frames[i].translate, sizeof (vec3_t), 1, fp);
         fread (mdl->frames[i].name, sizeof (char), 16, fp);
-        fread (mdl->frames[i].verts, sizeof (struct md2_vertex_t), mdl->header.num_vertices, fp);
+        fread (mdl->frames[i].verts, sizeof (md2_vertex_t), mdl->header.num_vertices, fp);
     }
     
     fclose (fp);
@@ -65,8 +62,8 @@ int ReadMD2Model (const char *filename, struct md2_model_t *mdl) {
 }
 
 
-void FreeMD2Model (struct md2_model_t *mdl) {
-    int i;
+void MD2FreeModel (md2_model_t *mdl) {
+    if (!mdl) return;
     
     if (mdl->skins)
     {
@@ -94,12 +91,12 @@ void FreeMD2Model (struct md2_model_t *mdl) {
     
     if (mdl->frames)
     {
-        for (i = 0; i < mdl->header.num_frames; ++i)
+        for (size_t i = 0; i < mdl->header.num_frames; ++i)
         {
             free (mdl->frames[i].verts);
             mdl->frames[i].verts = NULL;
         }
-        
+
         free (mdl->frames);
         mdl->frames = NULL;
     }

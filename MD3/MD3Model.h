@@ -1,19 +1,17 @@
 #import <Foundation/Foundation.h>
 #import <OpenGLES/ES1/gl.h>
 
-struct _md2_model_t;
+struct _md3_model_t;
 
-@interface MD2Model : NSObject {
+@interface MD3Model : NSObject {
 @private
-    struct _md2_model_t *model;
-    GLfloat *vertices;
-    GLfloat *normals;
-    GLfloat *textureCoords;
+    struct _md3_model_t *model;
     NSInteger frameIndex;
-    NSInteger preparedFrame;
+    BOOL drawNormals;
 }
 @property (nonatomic, readonly) NSInteger totalFrames;
 @property (nonatomic, assign) NSInteger frameIndex;
+@property (nonatomic, assign) BOOL drawNormals;
 
 - (id)initWithModelFromFile:(NSString*)filePath;
 
