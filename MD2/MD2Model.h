@@ -1,22 +1,21 @@
 #import <Foundation/Foundation.h>
-#import <OpenGLES/ES1/gl.h>
-
-struct _md2_model_t;
 
 @interface MD2Model : NSObject {
 @private
-    struct _md2_model_t *model;
-    GLfloat *vertices;
-    GLfloat *normals;
-    GLfloat *textureCoords;
-    NSInteger frameIndex;
-    NSInteger preparedFrame;
+	NSMutableData *data;
+	NSInteger totalFrames;
+	NSInteger trianges;
+	NSInteger vertBytesPerFrame;
+	NSInteger vertOffset;
+	NSInteger normOffset;
+	NSInteger indexOffset;
+	NSInteger texOffset;
 }
 @property (nonatomic, readonly) NSInteger totalFrames;
-@property (nonatomic, assign) NSInteger frameIndex;
 
 - (id)initWithModelFromFile:(NSString*)filePath;
 
-- (void)render;
+- (void)renderFrame:(NSInteger)frame;
+- (void)renderFrame:(NSInteger)frame swapSide:(BOOL)swap;
 
 @end
