@@ -17,6 +17,10 @@
 		B40E5186105AB2D800513FE3 /* TextureManager.h in Headers */ = {isa = PBXBuildFile; fileRef = B40E5184105AB2D800513FE3 /* TextureManager.h */; };
 		B40E5187105AB2D800513FE3 /* TextureManager.m in Sources */ = {isa = PBXBuildFile; fileRef = B40E5185105AB2D800513FE3 /* TextureManager.m */; };
 		B40E5189105AB3A000513FE3 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B40E5188105AB3A000513FE3 /* UIKit.framework */; };
+		B42C2E1C13867B7400B5512B /* EAGLView.h in Headers */ = {isa = PBXBuildFile; fileRef = B42C2E1813867B7400B5512B /* EAGLView.h */; };
+		B42C2E1D13867B7400B5512B /* EAGLView.m in Sources */ = {isa = PBXBuildFile; fileRef = B42C2E1913867B7400B5512B /* EAGLView.m */; };
+		B42C2E1E13867B7400B5512B /* EAGLViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = B42C2E1A13867B7400B5512B /* EAGLViewController.h */; };
+		B42C2E1F13867B7400B5512B /* EAGLViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B42C2E1B13867B7400B5512B /* EAGLViewController.m */; };
 		B492E022106A12C4006069B9 /* gl.h in Headers */ = {isa = PBXBuildFile; fileRef = B492E01F106A12C4006069B9 /* gl.h */; };
 		B492E023106A12C4006069B9 /* glmath.c in Sources */ = {isa = PBXBuildFile; fileRef = B492E020106A12C4006069B9 /* glmath.c */; };
 		B492E024106A12C4006069B9 /* glmath.h in Headers */ = {isa = PBXBuildFile; fileRef = B492E021106A12C4006069B9 /* glmath.h */; };
@@ -48,6 +52,10 @@
 		B40E5184105AB2D800513FE3 /* TextureManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TextureManager.h; sourceTree = "<group>"; };
 		B40E5185105AB2D800513FE3 /* TextureManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TextureManager.m; sourceTree = "<group>"; };
 		B40E5188105AB3A000513FE3 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		B42C2E1813867B7400B5512B /* EAGLView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EAGLView.h; sourceTree = "<group>"; };
+		B42C2E1913867B7400B5512B /* EAGLView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EAGLView.m; sourceTree = "<group>"; };
+		B42C2E1A13867B7400B5512B /* EAGLViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EAGLViewController.h; sourceTree = "<group>"; };
+		B42C2E1B13867B7400B5512B /* EAGLViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EAGLViewController.m; sourceTree = "<group>"; };
 		B492E01F106A12C4006069B9 /* gl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = gl.h; sourceTree = "<group>"; };
 		B492E020106A12C4006069B9 /* glmath.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = glmath.c; sourceTree = "<group>"; };
 		B492E021106A12C4006069B9 /* glmath.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = glmath.h; sourceTree = "<group>"; };
@@ -79,6 +87,7 @@
 		29B97314FDCFA39411CA2CEA /* CustomTemplate */ = {
 			isa = PBXGroup;
 			children = (
+				B42C2E1713867B7400B5512B /* EAGL */,
 				B49F3B1C13866AE1006E21D8 /* SHADER */,
 				B492E01E106A12C4006069B9 /* Math */,
 				B40E5179105AB26400513FE3 /* TEX */,
@@ -124,6 +133,17 @@
 				B40E5185105AB2D800513FE3 /* TextureManager.m */,
 			);
 			path = TEX;
+			sourceTree = "<group>";
+		};
+		B42C2E1713867B7400B5512B /* EAGL */ = {
+			isa = PBXGroup;
+			children = (
+				B42C2E1813867B7400B5512B /* EAGLView.h */,
+				B42C2E1913867B7400B5512B /* EAGLView.m */,
+				B42C2E1A13867B7400B5512B /* EAGLViewController.h */,
+				B42C2E1B13867B7400B5512B /* EAGLViewController.m */,
+			);
+			path = EAGL;
 			sourceTree = "<group>";
 		};
 		B492E01E106A12C4006069B9 /* Math */ = {
@@ -177,6 +197,8 @@
 				B49F3B2113866AE2006E21D8 /* Program.h in Headers */,
 				B49F3B2313866AE2006E21D8 /* Shader.h in Headers */,
 				B49F3B2713866B56006E21D8 /* Texture.h in Headers */,
+				B42C2E1C13867B7400B5512B /* EAGLView.h in Headers */,
+				B42C2E1E13867B7400B5512B /* EAGLViewController.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -242,6 +264,8 @@
 				B49F3B2213866AE2006E21D8 /* Program.m in Sources */,
 				B49F3B2413866AE2006E21D8 /* Shader.m in Sources */,
 				B49F3B2813866B56006E21D8 /* Texture.m in Sources */,
+				B42C2E1D13867B7400B5512B /* EAGLView.m in Sources */,
+				B42C2E1F13867B7400B5512B /* EAGLViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
