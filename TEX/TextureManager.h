@@ -1,20 +1,17 @@
 #import <Foundation/Foundation.h>
-#import <OpenGLES/ES1/gl.h>
-#import <UIKit/UIKit.h>
+#import "Texture.h"
 
 @interface TextureManager : NSObject {
     GLuint *textures;
-    NSInteger size;
-    NSInteger capacity;
+    NSUInteger count;
+    NSUInteger capacity;
 }
-@property (nonatomic, readonly) NSInteger size;
+@property (nonatomic, readonly) NSUInteger size;
 
-- (BOOL)loadTextureFromImage:(UIImage*)image;
-- (BOOL)replaceTexture:(NSInteger)index fromImage:(UIImage*)image;
+- (BOOL)addTexture:(Texture*)texture;
 
-- (BOOL)loadTextureWithSize:(CGSize)size fromView:(UIView*)view;
-- (BOOL)replaceTexture:(NSInteger)index withSize:(CGSize)size fromView:(UIView*)view;
+- (BOOL)replaceTexture:(NSUInteger)index withTexture:(Texture*)texture;
 
-- (BOOL)bindTexture:(NSInteger)index;
+- (BOOL)bindTexture:(NSUInteger)index;
 
 @end
