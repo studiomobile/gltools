@@ -12,34 +12,32 @@ NSError* mkGLError(int code, NSString *message)
 @synthesize type;
 @synthesize binding;
 
-- (id)initWithType:(GLuint)shaderType path:(NSString*)shaderPath
+- (id)initWithType:(GLuint)shaderType source:(NSString*)shaderSource
 {
     self = [super init];
     if (self) {
         type = shaderType;
-        path = shaderPath;
+        source = [shaderSource retain];
     }
     return self;
 }
 
-+ (Shader*)vertexShaderWithFile:(NSString*)path
++ (Shader*)vertexShaderWithSource:(NSString*)source
 {
-    return [[[self alloc] initWithType:GL_VERTEX_SHADER path:path] autorelease];
+    return [[[self alloc] initWithType:GL_VERTEX_SHADER source:source] autorelease];
 }
 
-+ (Shader*)fragmentShaderWithFile:(NSString*)path
++ (Shader*)fragmentShaderWithSource:(NSString*)source
 {
-    return [[[self alloc] initWithType:GL_FRAGMENT_SHADER path:path] autorelease];
+    return [[[self alloc] initWithType:GL_FRAGMENT_SHADER source:source] autorelease];
 }
 
 - (GLuint)bind:(NSError**)error
 {
     if (!binding) {
-        const GLchar *source = (GLchar *)[[NSString stringWithContentsOfFile:path encoding:NSUTF8StringEncoding error:error] UTF8String];
-        if (!source) return 0;
-        
+        const GLchar *s = (GLchar *)[source UTF8String];
         GLuint shader = glCreateShader(type);
-        glShaderSource(shader, 1, &source, NULL);
+        glShaderSource(shader, 1, &s, NULL);
         glCompileShader(shader);
         
         GLint status;
@@ -77,7 +75,7 @@ NSError* mkGLError(int code, NSString *message)
 
 - (void)dealloc
 {
-    [path release];
+    [source release];
     [self unbind];
     [super dealloc];
 }

@@ -6,14 +6,14 @@ NSError* mkGLError(int code, NSString *message);
 
 @interface Shader : NSObject {
     GLuint type;
-    NSString *path;
+    NSString *source;
     GLuint binding;
 }
 @property (nonatomic, readonly) GLuint type;
 @property (nonatomic, readonly) GLuint binding;
 
-+ (Shader*)vertexShaderWithFile:(NSString*)path;
-+ (Shader*)fragmentShaderWithFile:(NSString*)path;
++ (Shader*)vertexShaderWithSource:(NSString*)source;
++ (Shader*)fragmentShaderWithSource:(NSString*)source;
 
 - (GLuint)bind:(NSError**)error;
 - (void)unbind;
