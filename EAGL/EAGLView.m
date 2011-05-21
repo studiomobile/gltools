@@ -9,6 +9,7 @@
 @implementation EAGLView
 
 @synthesize context;
+@synthesize framebufferWidth, framebufferHeight;
 
 + (Class)layerClass
 {
@@ -83,6 +84,12 @@
         
         glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_RENDERBUFFER, colorRenderbuffer);
         
+        // Create depth render buffer
+        glGenRenderbuffers(1, &depthRenderBuffer);
+        glBindRenderbuffer(GL_RENDERBUFFER, depthRenderBuffer);
+        glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT24_OES, framebufferWidth, framebufferHeight);
+        glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, depthRenderBuffer);
+
         if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
             NSLog(@"Failed to make complete framebuffer object %x", glCheckFramebufferStatus(GL_FRAMEBUFFER));
     }
@@ -101,6 +108,11 @@
         if (colorRenderbuffer) {
             glDeleteRenderbuffers(1, &colorRenderbuffer);
             colorRenderbuffer = 0;
+        }
+
+        if (depthRenderBuffer) {
+            glDeleteBuffers(1, &depthRenderBuffer);
+            depthRenderBuffer = 0;
         }
     }
 }
