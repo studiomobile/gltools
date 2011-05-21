@@ -112,7 +112,7 @@
 - (int)uniformLocationForName:(NSString*)name
 {
     if (!binding) return -1;
-    return glGetUniformLocation(binding, [name cStringUsingEncoding:NSASCIIStringEncoding]);
+    return glGetUniformLocation(binding, [name UTF8String]);
 }
 
 
