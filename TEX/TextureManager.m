@@ -39,4 +39,17 @@
     return glGetError() == GL_NO_ERROR;
 }
 
+- (void)clear
+{
+    glDeleteTextures(count, textures);
+    count = 0;
+}
+
+- (void)dealloc
+{
+    [self clear];
+    free(textures);
+    [super dealloc];
+}
+
 @end

@@ -14,4 +14,6 @@
 
 - (BOOL)bindTexture:(NSUInteger)index;
 
+- (void)clear;
+
 @end

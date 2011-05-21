@@ -3,17 +3,28 @@
 #import "Texture.h"
 
 typedef void (*renderer_fn_t)(CGContextRef, CGSize, void*);
+void _renderImage(CGContextRef ctx, CGSize textureSize, void *data);
+void _renderView(CGContextRef ctx, CGSize textureSize, void *data);
 
 @implementation Texture
 
 @synthesize data, width, height;
+
+
++ (Texture*)textureWithImage:(UIImage*)image
+{
+    Texture *tx = [[Texture new] autorelease];
+    [tx loadFromImage:image];
+    return tx;
+}
+
 
 - (void)_renderTexture:(renderer_fn_t)renderer withSize:(CGSize)textureSize userData:(void*)userData
 {
     width = textureSize.width;
     height = textureSize.height;
     if (!data) {
-        data = [NSMutableData dataWithCapacity:width * height * 4];
+        data = [[NSMutableData alloc] initWithCapacity:width * height * 4];
     } else {
         [data setLength:width * height * 4];
     }
@@ -21,11 +32,13 @@ typedef void (*renderer_fn_t)(CGContextRef, CGSize, void*);
     CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
     CGContextRef ctx = CGBitmapContextCreate([data mutableBytes], width, height, 8, width*4, colorSpace, kCGImageAlphaPremultipliedLast);
     CGColorSpaceRelease(colorSpace);
+    CGContextTranslateCTM(ctx, 0, textureSize.height);
+    CGContextScaleCTM(ctx, 1, -1);
     renderer(ctx, textureSize, userData);
     CGContextRelease(ctx);
 }
 
-void renderImage(CGContextRef ctx, CGSize textureSize, void *data)
+void _renderImage(CGContextRef ctx, CGSize textureSize, void *data)
 {
     UIImage *image = (UIImage*)data;
     CGRect frame = CGRectMake(0, 0, image.size.width, image.size.height);
@@ -34,20 +47,18 @@ void renderImage(CGContextRef ctx, CGSize textureSize, void *data)
 
 - (void)loadFromImage:(UIImage*)image
 {
-    [self _renderTexture:renderImage withSize:image.size userData:image];
+    [self _renderTexture:_renderImage withSize:image.size userData:image];
 }
 
-void renderView(CGContextRef ctx, CGSize textureSize, void *data)
+void _renderView(CGContextRef ctx, CGSize textureSize, void *data)
 {
     UIView *view = (UIView*)data;
-    CGContextTranslateCTM(ctx, 0, textureSize.height);
-    CGContextScaleCTM(ctx, 1, -1);
     [view.layer renderInContext:ctx];
 }
 
 - (void)loadFromView:(UIView*)view withSize:(CGSize)size
 {
-    [self _renderTexture:renderView withSize:size userData:view];
+    [self _renderTexture:_renderView withSize:size userData:view];
 }
 
 - (BOOL)writeGL
@@ -57,7 +68,6 @@ void renderView(CGContextRef ctx, CGSize textureSize, void *data)
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-//    glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data.bytes);
     
     return glGetError() == GL_NO_ERROR;

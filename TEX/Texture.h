@@ -10,6 +10,8 @@
 @property (nonatomic, readonly) NSUInteger width;
 @property (nonatomic, readonly) NSUInteger height;
 
++ (Texture*)textureWithImage:(UIImage*)image;
+
 - (void)loadFromImage:(UIImage*)image;
 - (void)loadFromView:(UIView*)view withSize:(CGSize)size;
 
