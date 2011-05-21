@@ -50,15 +50,19 @@
 {
     if (!context) return;
 
-    [EAGLContext setCurrentContext:context];
-    [delegate teardownGL];
-    [EAGLContext setCurrentContext:nil];
+    if ([EAGLContext currentContext] == context) {
+        [delegate teardownGL];
+        [EAGLContext setCurrentContext:nil];
+    }
 	self.context = nil;	
 }
 
 - (void)_drawFrame
 {
-    [delegate drawFrame];
+    EAGLView *view = (EAGLView *)self.view;
+    [view setFramebuffer];
+    [delegate drawFrameSize:CGSizeMake(view.framebufferWidth, view.framebufferHeight)];
+    [view presentFramebuffer];
 }
 
 - (void)dealloc
@@ -72,12 +76,6 @@
 - (void)loadView
 {
     self.view = [[EAGLView new] autorelease];
-}
-
-- (void)viewDidLoad
-{
-    [super viewDidLoad];
-    [self _setup];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -114,6 +112,7 @@
 - (void)startAnimation
 {
     if (!animating) {
+        if (delegate) [self _setup];
         CADisplayLink *aDisplayLink = [[UIScreen mainScreen] displayLinkWithTarget:self selector:@selector(_drawFrame)];
         [aDisplayLink setFrameInterval:animationFrameInterval];
         [aDisplayLink addToRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];

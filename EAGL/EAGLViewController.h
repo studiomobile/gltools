@@ -6,11 +6,11 @@
 @protocol EAGLViewControllerDelegate <NSObject>
 - (void)setupGL;
 - (void)teardownGL;
-- (void)drawFrame;
+- (void)drawFrameSize:(CGSize)size;
 @end
 
 @interface EAGLViewController : UIViewController {
-    id<EAGLViewControllerDelegate> delegate;
+    IBOutlet id<EAGLViewControllerDelegate> delegate;
 @private
     EAGLContext *context;
     BOOL animating;
