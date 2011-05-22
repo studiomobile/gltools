@@ -19,7 +19,7 @@
 - (void)_setup
 {
     CAEAGLLayer *layer = (CAEAGLLayer *)self.layer;
-    layer.opaque = YES;
+    layer.opaque = self.opaque;
     layer.drawableProperties = [NSDictionary dictionaryWithObjectsAndKeys:
                                 [NSNumber numberWithBool:FALSE], kEAGLDrawablePropertyRetainedBacking,
                                 kEAGLColorFormatRGBA8, kEAGLDrawablePropertyColorFormat,
