@@ -150,6 +150,7 @@
 {
     // The framebuffer will be re-created at the beginning of the next setFramebuffer method call.
     [self deleteFramebuffer];
+    [super layoutSubviews];
 }
 
 @end
