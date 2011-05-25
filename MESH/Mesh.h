@@ -6,7 +6,7 @@
     NSData *indexes;
     NSData *uvs;
 #ifdef GLES2
-    uint32_t buffers[2];
+    GLuint buffers[2];
 #endif
 }
 
