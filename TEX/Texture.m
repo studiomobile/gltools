@@ -1,6 +1,6 @@
 #import <QuartzCore/QuartzCore.h>
-#import <OpenGLES/ES2/gl.h>
 #import "Texture.h"
+#import "GLES.h"
 
 typedef void (*renderer_fn_t)(CGContextRef, CGSize, void*);
 void _renderImage(CGContextRef ctx, CGSize textureSize, void *data);

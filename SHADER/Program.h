@@ -1,4 +1,5 @@
 #import "Shader.h"
+#import <OpenGLES/ES2/gl.h>
 
 @interface Program : NSObject {
     GLuint binding;

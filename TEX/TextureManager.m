@@ -1,5 +1,4 @@
 #import <QuartzCore/QuartzCore.h>
-#import <OpenGLES/ES2/gl.h>
 #import "TextureManager.h"
 
 @implementation TextureManager

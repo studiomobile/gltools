@@ -70,7 +70,7 @@
 {
     if (context && !defaultFramebuffer) {
         [EAGLContext setCurrentContext:context];
-        
+
         // Create default framebuffer object.
         glGenFramebuffers(1, &defaultFramebuffer);
         glBindFramebuffer(GL_FRAMEBUFFER, defaultFramebuffer);

@@ -2,6 +2,12 @@
 #import "EAGLViewController.h"
 #import "EAGLView.h"
 
+#ifdef GLES2
+#define EAGLAPI kEAGLRenderingAPIOpenGLES2
+#else
+#define EAGLAPI kEAGLRenderingAPIOpenGLES1
+#endif
+
 @interface EAGLViewController ()
 @property (nonatomic, retain) EAGLContext *context;
 @property (nonatomic, assign) CADisplayLink *displayLink;
@@ -15,15 +21,14 @@
 @synthesize context;
 @synthesize displayLink;
 
-
 - (void)_setup
 {
     if (context) {
         [EAGLContext setCurrentContext:context];
         return;
     }
-
-    EAGLContext *aContext = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES2];
+    
+    EAGLContext *aContext = [[EAGLContext alloc] initWithAPI:EAGLAPI];
     
     if (!aContext)
         NSLog(@"Failed to create ES context");

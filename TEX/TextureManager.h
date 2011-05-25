@@ -1,5 +1,5 @@
-#import <Foundation/Foundation.h>
 #import "Texture.h"
+#import "GLES.h"
 
 @interface TextureManager : NSObject {
     GLuint *textures;

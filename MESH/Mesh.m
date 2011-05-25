@@ -1,6 +1,4 @@
 #import "Mesh.h"
-#import <OpenGLES/ES2/gl.h>
-#import <OpenGLES/ES2/glext.h>
 
 @implementation Mesh
 
@@ -18,6 +16,8 @@
 + (Mesh*)meshWithPoints:(NSData*)points indexes:(NSData*)indexes uvs:(NSData*)uvs {
     return [[[self alloc] initWithPoints:points indexes:indexes uvs:uvs] autorelease];
 }
+
+#ifdef GLES2
 
 - (void)bind
 {
@@ -54,27 +54,56 @@
     if (!buffers[0]) return;
     
     glBindBuffer(GL_ARRAY_BUFFER, buffers[0]);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, buffers[1]);
+    
+    glEnableVertexAttribArray(0);
+    glEnableVertexAttribArray(1);
     
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, 0);
-    glEnableVertexAttribArray(0);
-    
     glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, (void*)points.length);
-    glEnableVertexAttribArray(1);
-
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, buffers[1]);
-
+    
     glDrawArrays(GL_TRIANGLES, 0, points.length / (sizeof(GLfloat) * 3));
+    
+    glDisableVertexAttribArray(1);
+    glDisableVertexAttribArray(0);
     
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
     glBindBuffer(GL_ARRAY_BUFFER, 0);
 }
+
+#else
+
+- (void)draw
+{
+    glEnableClientState(GL_VERTEX_ARRAY);
+    glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+    
+    glVertexPointer(3, GL_FLOAT, 0, points.bytes);
+    glTexCoordPointer(2, GL_FLOAT, 0, uvs.bytes);
+    
+    if (indexes.length > 0) {
+        glDrawElements(GL_TRIANGLES, indexes.length / sizeof(GLshort), GL_SHORT, indexes.bytes);
+    } else {
+        glDrawArrays(GL_TRIANGLES, 0, points.length / (sizeof(GLfloat) * 3));
+    }
+    
+    glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+    glDisableClientState(GL_VERTEX_ARRAY);
+    
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+}
+
+#endif
 
 - (void)dealloc
 {
     [points release];
     [indexes release];
     [uvs release];
+#ifdef GLES2
     [self unbind];
+#endif
     [super dealloc];
 }
 
